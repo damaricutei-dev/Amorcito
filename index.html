@@ -85,7 +85,6 @@ to { opacity: 1; transform: translateY(0); }
 50% { transform: translateY(-8px); }
 }
 
-/* ===== FACTS ===== */
 .facts {
 min-height: auto;
 padding: 80px 24px;
@@ -140,7 +139,6 @@ line-height: 1.6;
 
 .fact-text strong { color: var(–pink); font-weight: 600; }
 
-/* ===== SWIPE CARDS ===== */
 .swipe-section {
 gap: 32px;
 min-height: auto;
@@ -195,7 +193,6 @@ margin-top: 32px;
 letter-spacing: 1px;
 }
 
-/* ===== METERS ===== */
 .meter-section {
 gap: 40px;
 min-height: auto;
@@ -259,7 +256,6 @@ transition: opacity 0.6s ease 2s;
 
 .meter-verdict.show { opacity: 1; }
 
-/* ===== LOVE BUTTON ===== */
 .btn-section {
 gap: 24px;
 min-height: auto;
@@ -303,7 +299,6 @@ text-align: center;
 max-width: 320px;
 }
 
-/* ===== FOOTER ===== */
 .footer {
 min-height: auto;
 padding: 60px 24px;
@@ -329,6 +324,35 @@ position: fixed;
 pointer-events: none;
 z-index: 999;
 font-size: 20px;
+}
+
+/* ===== MUSIC BUTTON ===== */
+.music-btn {
+position: fixed;
+bottom: 20px;
+right: 20px;
+width: 50px;
+height: 50px;
+border-radius: 50%;
+background: var(–pink);
+border: none;
+color: white;
+font-size: 22px;
+cursor: pointer;
+z-index: 999;
+box-shadow: 0 0 20px rgba(232,69,107,0.4);
+transition: all 0.3s ease;
+}
+
+.music-btn:hover { transform: scale(1.1); }
+
+.music-btn.playing {
+animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+0%,100% { box-shadow: 0 0 20px rgba(232,69,107,0.4); }
+50% { box-shadow: 0 0 35px rgba(232,69,107,0.7); }
 }
 </style>
 
@@ -442,12 +466,33 @@ font-size: 20px;
 <!-- FOOTER -->
 
 <section class="footer">
-  <div class="footer-big">Te amo mucho <span>mucho</span> 💕</div>
-  <div class="footer-small">feliz san valentín, mi corazoncito lindo</div>
+  <div class="footer-big">Te amo <span>mucho</span> 💕</div>
+  <div class="footer-small">feliz san valentín, mi corazoncito</div>
 </section>
 
+<!-- MUSIC -->
+
+<audio id="bgMusic" loop>
+  <source src="cancion.mp3" type="audio/mpeg">
+</audio>
+<button class="music-btn" id="musicBtn">🎵</button>
+
 <script>
-  // Scroll reveal for facts
+  // Music
+  document.getElementById('musicBtn').addEventListener('click', function() {
+    const m = document.getElementById('bgMusic');
+    if (m.paused) {
+      m.play();
+      this.textContent = '🔊';
+      this.classList.add('playing');
+    } else {
+      m.pause();
+      this.textContent = '🎵';
+      this.classList.remove('playing');
+    }
+  });
+
+  // Scroll reveal
   const obs = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (e.isIntersecting) {
@@ -491,7 +536,7 @@ font-size: 20px;
     }
   }
 
-  // Meters animation
+  // Meters
   const meterObs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
